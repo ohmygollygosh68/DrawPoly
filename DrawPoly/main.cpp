@@ -30,19 +30,6 @@ void mouse_move(int x, int y)
 	currentPt = std::array<int, 2>{x, vp_height - y};
 	glutPostRedisplay();
 }
-
-void MyDisplay() {                      //
-	glClear(GL_COLOR_BUFFER_BIT);       //GL
-	glViewport(0, 0, 640, 480);
-	glColor3f(1.0, 1.0, 1.0);
-	glBegin(GL_POLYGON);                //
-	glVertex3f(-0.5, -0.5, 0.0);
-	glVertex3f(0.5, -0.5, 0.0);
-	glVertex3f(0.5, 0.5, 0.0);
-	glVertex3f(-0.5, 0.5, 0.0);
-	glEnd();
-	glFlush();
-}
 void display(void)
 {
 	glClearColor(0, 0, 0, 0);
@@ -66,19 +53,16 @@ int main(int argc, char** argv) {
 	glutInitDisplayMode(GLUT_RGB);
 	glutInitWindowSize(640, 480);
 	glutInitWindowPosition(0, 0);
-	glutCreateWindow("OpenGL Sample Drawing");
-
+	glutCreateWindow("OpenGL and GLUT Drawing with mouse");
 	glClearColor(0.0, 0.0, 0.0, 1.0);   //GL
-	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
 
-	//glutDisplayFunc(MyDisplay);         //GLUT
 	glutDisplayFunc(display);         //New
 	glutPassiveMotionFunc(mouse_move);	//New
 	glutMouseFunc(draw_polygon);	//New
 	glMatrixMode(GL_PROJECTION);	//New
 	glOrtho(0.0f, (float)vp_width, 0.0f, (float)vp_height, -1.0, 1.0);	//New
+
 	glutMainLoop();                     //
 	return 0;
 }
