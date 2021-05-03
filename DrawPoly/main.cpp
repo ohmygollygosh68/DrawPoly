@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h> 
 #include <iostream>
 
+// Test code for glew and glfw
 
 void window_resized(GLFWwindow* window, int width, int height);
 void key_pressed(GLFWwindow* window, int key, int scancode, int action, int mods);
