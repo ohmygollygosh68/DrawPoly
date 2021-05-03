@@ -73,7 +73,12 @@ int main(int argc, char** argv) {
 	glLoadIdentity();
 	glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
 
-	glutDisplayFunc(MyDisplay);         //GLUT
+	//glutDisplayFunc(MyDisplay);         //GLUT
+	glutDisplayFunc(display);         //New
+	glutPassiveMotionFunc(mouse_move);	//New
+	glutMouseFunc(draw_polygon);	//New
+	glMatrixMode(GL_PROJECTION);	//New
+	glOrtho(0.0f, (float)vp_width, 0.0f, (float)vp_height, -1.0, 1.0);	//New
 	glutMainLoop();                     //
 	return 0;
 }
