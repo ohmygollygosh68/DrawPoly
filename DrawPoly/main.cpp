@@ -33,6 +33,22 @@ void drawScene() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW); //Switch to the drawing perspective
 	glLoadIdentity(); //Reset the drawing perspective
+
+	//This version of triangle fan does not work
+	/*
+	glBegin(GL_TRIANGLE_FAN);
+	glColor3f(1, 0, 0);
+	glVertex2f(0, 0.5);
+	glVertex2f(-0.4, 0);
+	glVertex2f(0.4, 0);
+	glColor3f(0, 1, 0);
+	glVertex2f(0, -0.5);
+	glEnd();
+	glFlush();
+	*/
+
+
+
 	glBegin(GL_QUADS); //Begin quadrilateral coordinates
 	//Trapezoid
 	glVertex3f(-0.7f, -1.5f, -5.0f);
@@ -46,7 +62,7 @@ void drawScene() {
 	glVertex3f(-1.0f, 1.5f, -5.0f);
 	glVertex3f(-1.5f, 0.5f, -5.0f);
 	glEnd(); //End triangle coordinates
-
+	/*
 	glBegin(GL_TRIANGLE_FAN); //Begin triangle fan coordinates ** NEW does not yet display
 	//Triangle Fan
 	glVertex3f(1.0f, 4.0f, 0.0f);
@@ -59,6 +75,8 @@ void drawScene() {
 	glVertex3f(0.0f, 6.0f, 0.0f);
 	glEnd(); //End of Triangle Fan ** NEW does not yet display
 
+
+	*/
 	glutSwapBuffers(); //Send the 3D scene to the screen
 }
 int main(int argc, char** argv) {
