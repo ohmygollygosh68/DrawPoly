@@ -1,109 +1,67 @@
-#include <GL/glew.h>  
-#include <GLFW/glfw3.h> 
-#include <iostream>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
-// Test code for glew and glfw
+#define SCREEN_WIDTH 640
+#define SCREEN_HEIGHT 480
 
-void window_resized(GLFWwindow* window, int width, int height);
-void key_pressed(GLFWwindow* window, int key, int scancode, int action, int mods);
-void show_glfw_error(int error, const char* description);
-
-
-int main()
+int main(void)
 {
-    glfwSetErrorCallback(show_glfw_error);
+    GLFWwindow* window;
 
-
-    if (!glfwInit()) {
-        std::cerr << "GLFW" << '\n';
-        exit(-1);
+    // Initialize the library
+    if (!glfwInit())
+    {
+        return -1;
     }
 
+    // Create a windowed mode window and its OpenGL context
+    window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Hello World", NULL, NULL);
 
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-
-
-    GLFWwindow* window = glfwCreateWindow(
-        800, // width
-        600, // height
-        "OpenGL Example",
-        NULL, NULL);
     if (!window)
     {
-        std::cerr << "not window error" << '\n';
         glfwTerminate();
-        exit(-1);
+        return -1;
     }
 
-
+    // Make the window's context current
     glfwMakeContextCurrent(window);
 
+    glViewport(0.0f, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT); // specifies the part of the window to which OpenGL will draw (in pixels), convert from normalised to pixels
+    glMatrixMode(GL_PROJECTION); // projection matrix defines the properties of the camera that views the objects in the world coordinate frame. Here you typically set the zoom factor, aspect ratio and the near and far clipping planes
+    glLoadIdentity(); // replace the current matrix with the identity matrix and starts us a fresh because matrix transforms such as glOrpho and glRotate cumulate, basically puts us at (0, 0, 0)
+    glOrtho(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT, 0, 1); // essentially set coordinate system
+    glMatrixMode(GL_MODELVIEW); // (default matrix mode) modelview matrix defines how your objects are transformed (meaning translation, rotation and scaling) in your world
+    glLoadIdentity(); // same as above comment
 
-    glfwSetWindowSizeCallback(window, window_resized);
-    glfwSetKeyCallback(window, key_pressed);
+    GLfloat polygonVertices[] =
+    {
+        320, 240, 0,
+        370, 290, 0,
+        420, 240, 0,
+        370, 190, 0
+    };
 
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-    glfwSwapInterval(1);
-
-
-    glewExperimental = GL_TRUE;
-    GLenum err = glewInit();
-    if (err != GLEW_OK) {
-        std::cerr << "GLEW error " << glewGetErrorString(err) << '\n';
-        glfwTerminate();
-        exit(-1);
-    }
-
-
-    std::cout << glGetString(GL_VERSION) << '\n';
-
-
-    int nr_extensions = 0;
-    glGetIntegerv(GL_NUM_EXTENSIONS, &nr_extensions);
-
-    for (int i = 0; i < nr_extensions; ++i) {
-        std::cout << glGetStringi(GL_EXTENSIONS, i) << '\n';
-    }
-
-
-    glClearColor(0, 0, 1, 1);
-
-
-    while (!glfwWindowShouldClose(window)) {
-
+    // Loop until the user closes the window
+    while (!glfwWindowShouldClose(window))
+    {
         glClear(GL_COLOR_BUFFER_BIT);
 
+        // render OpenGL here
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glVertexPointer(3, GL_FLOAT, 0, polygonVertices);
+        glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+        glDisableClientState(GL_VERTEX_ARRAY);
+
+        // Swap front and back buffers
         glfwSwapBuffers(window);
 
+        // Poll for and process events
         glfwPollEvents();
     }
 
-
-    glfwDestroyWindow(window);
-
-
     glfwTerminate();
+
     return 0;
-}
-
-void show_glfw_error(int error, const char* description) {
-    std::cerr << "Error: " << description << '\n';
-}
-
-void window_resized(GLFWwindow* window, int width, int height) {
-    std::cout << "Window resized, new window size: " << width << " x " << height << '\n';
-
-    glClearColor(0, 0, 1, 1);
-    glClear(GL_COLOR_BUFFER_BIT);
-    glfwSwapBuffers(window);
-}
-
-void key_pressed(GLFWwindow* window, int key, int scancode, int action, int mods) {
-    if (key == 'Q' && action == GLFW_PRESS) {
-        glfwTerminate();
-        exit(0);
-    }
 }
