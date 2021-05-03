@@ -35,10 +35,11 @@ int main(void)
 
     GLfloat polygonVertices[] =
     {
-        320, 240, 0,
-        370, 290, 0,
-        420, 240, 0,
-        370, 190, 0
+        20, 100, 0,
+        100, 300, 0,
+        500, 50, 0,
+        500, 450, 0,
+        600, 320, 0
     };
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -51,7 +52,7 @@ int main(void)
         // render OpenGL here
         glEnableClientState(GL_VERTEX_ARRAY);
         glVertexPointer(3, GL_FLOAT, 0, polygonVertices);
-        glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 5);
         glDisableClientState(GL_VERTEX_ARRAY);
 
         // Swap front and back buffers
