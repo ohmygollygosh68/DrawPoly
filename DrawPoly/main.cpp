@@ -41,6 +41,18 @@ int main(void)
         500, 450, 0,
         600, 320, 0
     };
+    // Can draw convex polygon above but cannot draw concave polygon below
+    /*
+    GLfloat polygonVertices[] =
+    {
+        500,300,0,
+        600,250,0,
+        500,200,0,
+        400,100,0,
+        300,200,0,
+    };
+    */
+
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
