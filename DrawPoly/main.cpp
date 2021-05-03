@@ -41,11 +41,15 @@ void display(void)
 /* If the "Closed" flag is set then the polygon is closed*/
 /* Else a line from the last point in the list to the current mouse position is drawn*/
 {
-	glClearColor(0, 0, 0, 0);
+	//glClearColor(0, 0, 0, 0);
+	/* Changed background colour from black to grey*/
+	glClearColor( 0.5f, 0.5f, 0.5f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	if (!pts.empty())
 	{
+		glLineWidth(5.0); //Make a drawn thicker line. This can be ommitted to give a thinner line
+		glColor3f(0.0f, 1.0f, 0.0f); //Change colour of drawn line to green. This can be ommitted to give a white draw line.
 		glBegin(GL_LINE_STRIP);
 		for (auto& pt : pts)
 			glVertex2f((float)pt[0], (float)pt[1]);
@@ -67,10 +71,10 @@ int main(int argc, char** argv) {
 	glLoadIdentity();
 
 	glutDisplayFunc(display);         //New
-	glutPassiveMotionFunc(mouse_move);	//New
+	glutPassiveMotionFunc(mouse_move);	//The registration of the mouse move event
 	glutMouseFunc(draw_polygon);	//New
 	glMatrixMode(GL_PROJECTION);	//New
-	glOrtho(0.0f, (float)vp_width, 0.0f, (float)vp_height, -1.0, 1.0);	//New
+	glOrtho(0.0f, (float)vp_width, 0.0f, (float)vp_height, -1.0, 1.0);	//flip Y? Y-Axis of the orthographic projection has to be flipped to match the view space to the mouse coordinates. (Maybe?)
 
 	glutMainLoop();                     //
 	return 0;
